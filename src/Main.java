@@ -1,5 +1,6 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -12,21 +13,94 @@ public class Main {
         System.out.println("Введите матрицу B:");
         ComplexMatrix b = readMatrix(scanner);
 
-        System.out.println("Матрица A:");
-        System.out.println(a);
+        int choice;
+        do {
+            System.out.println("\n1. Сложить A и B");
+            System.out.println("2. Умножить A на B");
+            System.out.println("3. Разделить A на B");
+            System.out.println("4. Транспонировать A");
+            System.out.println("5. Транспонировать B");
+            System.out.println("6. Определитель A");
+            System.out.println("7. Определитель B");
+            System.out.println("8. Ввести новую матрицу A");
+            System.out.println("9. Ввести новую матрицу B");
+            System.out.println("10. Показать A и B");
+            System.out.println("0. Выход");
+            System.out.print("Выберите операцию: ");
+            choice = readInt(scanner);
 
-        System.out.println("Матрица B:");
-        System.out.println(b);
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.println("A + B:");
+                        System.out.println(a.add(b));
+                        break;
+                    case 2:
+                        System.out.println("A * B:");
+                        System.out.println(a.multiply(b));
+                        break;
+                    case 3:
+                        System.out.println("A / B:");
+                        System.out.println(a.divide(b));
+                        break;
+                    case 4:
+                        System.out.println("Транспонированная A:");
+                        System.out.println(a.transpose());
+                        break;
+                    case 5:
+                        System.out.println("Транспонированная B:");
+                        System.out.println(b.transpose());
+                        break;
+                    case 6:
+                        System.out.println("Определитель A: " + a.determinant());
+                        break;
+                    case 7:
+                        System.out.println("Определитель B: " + b.determinant());
+                        break;
+                    case 8:
+                        System.out.println("Введите матрицу A:");
+                        a = readMatrix(scanner);
+                        break;
+                    case 9:
+                        System.out.println("Введите матрицу B:");
+                        b = readMatrix(scanner);
+                        break;
+                    case 10:
+                        System.out.println("Матрица A:");
+                        System.out.println(a);
+                        System.out.println("Матрица B:");
+                        System.out.println(b);
+                        break;
+                    case 0:
+                        System.out.println("Программа завершена.");
+                        break;
+                    default:
+                        System.out.println("Такого пункта меню нет.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ошибка: " + e.getMessage());
+            } catch (ArithmeticException e) {
+                System.out.println("Ошибка: " + e.getMessage());
+            }
+        } while (choice != 0);
 
         scanner.close();
     }
 
     private static ComplexMatrix readMatrix(Scanner scanner) {
         System.out.print("Количество строк: ");
-        int rows = scanner.nextInt();
+        int rows = readInt(scanner);
+        while (rows <= 0) {
+            System.out.print("Введите положительное количество строк: ");
+            rows = readInt(scanner);
+        }
 
         System.out.print("Количество столбцов: ");
-        int cols = scanner.nextInt();
+        int cols = readInt(scanner);
+        while (cols <= 0) {
+            System.out.print("Введите положительное количество столбцов: ");
+            cols = readInt(scanner);
+        }
 
         ComplexMatrix matrix = new ComplexMatrix(rows, cols);
 
@@ -35,15 +109,37 @@ public class Main {
                 System.out.println("Элемент [" + (i + 1) + "][" + (j + 1) + "]:");
 
                 System.out.print("Действительная часть: ");
-                double real = scanner.nextDouble();
+                double real = readDouble(scanner);
 
                 System.out.print("Мнимая часть: ");
-                double imaginary = scanner.nextDouble();
+                double imaginary = readDouble(scanner);
 
                 matrix.set(i, j, new Complex_number(real, imaginary));
             }
         }
 
         return matrix;
+    }
+
+    private static int readInt(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.print("Введите целое число: ");
+                scanner.next();
+            }
+        }
+    }
+
+    private static double readDouble(Scanner scanner) {
+        while (true) {
+            try {
+                return scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.print("Введите число: ");
+                scanner.next();
+            }
+        }
     }
 }
