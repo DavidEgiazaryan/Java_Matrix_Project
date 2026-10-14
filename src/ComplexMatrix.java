@@ -122,13 +122,11 @@ public class ComplexMatrix {
             if (!data[0][j].isZero()) {
                 Complex_number term = data[0][j].multiply(minor(0, j).determinant());
 
-                if (positive) {
+                if (j % 2 == 0) {
                     result = result.add(term);
                 } else {
                     result = result.subtract(term);
                 }
-
-                positive = !positive;
             }
         }
         return result;
@@ -161,7 +159,7 @@ public class ComplexMatrix {
                     cofactor = new Complex_number(0, 0).subtract(cofactor);
                 }
 
-                result.data[i][j] = cofactor.divide(det);
+                result.data[j][i] = cofactor.divide(det);
             }
         }
         return result;
