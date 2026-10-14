@@ -13,6 +13,7 @@ public class Main {
         System.out.println("Введите матрицу B:");
         ComplexMatrix b = readMatrix(scanner);
 
+        ComplexMatrix result = null;
         int choice;
         do {
             System.out.println("\n1. Сложить A и B");
@@ -25,6 +26,7 @@ public class Main {
             System.out.println("8. Ввести новую матрицу A");
             System.out.println("9. Ввести новую матрицу B");
             System.out.println("10. Показать A и B");
+            System.out.println("11. Использовать результат как матрицу A");
             System.out.println("0. Выход");
             System.out.print("Выберите операцию: ");
             choice = readInt(scanner);
@@ -33,23 +35,28 @@ public class Main {
                 switch (choice) {
                     case 1:
                         System.out.println("A + B:");
-                        System.out.println(a.add(b));
+                        result = a.add(b);
+                        System.out.println(result);
                         break;
                     case 2:
                         System.out.println("A * B:");
-                        System.out.println(a.multiply(b));
+                        result = a.multiply(b);
+                        System.out.println(result);
                         break;
                     case 3:
                         System.out.println("A / B:");
-                        System.out.println(a.divide(b));
+                        result = a.divide(b);
+                        System.out.println(result);
                         break;
                     case 4:
                         System.out.println("Транспонированная A:");
-                        System.out.println(a.transpose());
+                        result = a.transpose();
+                        System.out.println(result);
                         break;
                     case 5:
                         System.out.println("Транспонированная B:");
-                        System.out.println(b.transpose());
+                        result = b.transpose();
+                        System.out.println(result);
                         break;
                     case 6:
                         System.out.println("Определитель A: " + a.determinant());
@@ -70,6 +77,14 @@ public class Main {
                         System.out.println(a);
                         System.out.println("Матрица B:");
                         System.out.println(b);
+                        break;
+                    case 11:
+                        if (result == null) {
+                            System.out.println("Сначала выполните операцию с матрицами.");
+                        } else {
+                            a = result;
+                            System.out.println("Результат сохранён как матрица A.");
+                        }
                         break;
                     case 0:
                         System.out.println("Программа завершена.");
